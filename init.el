@@ -34,6 +34,9 @@
 (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
 ;; You read it right. No reading in the custom.el.
 
+;; No startup message
+(setq inhibit-startup-message t)
+
 ;;; All the bits and bobs live in external files
 ;;; Load them now
 
