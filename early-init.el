@@ -11,9 +11,6 @@
 ;; Silence stupid startup message
 (setq inhibit-startup-echo-area-message (user-login-name))
 
-;; Default frame configuration
-(tool-bar-mode -1)
-
 ;; Faster to disable these here (before they've been initialized)
 (unless (eq system-type 'android)
    (push '(menu-bar-lines . 0) default-frame-alist)
@@ -25,6 +22,8 @@
 ;(customize-set-variable 'scroll-bar-mode nil)
 ;(customize-set-variable 'horizontal-scroll-bar-mode nil)
 
+;; Default frame configuration
+(tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 
@@ -35,14 +34,12 @@
       frame-resize-pixelwise t)
 
 (setq default-frame-alist '(
-  (font . "FiraCode Nerd Font Mono-18:style=Retina")
   ;; Setting the face in here prevents flashes of
   ;; color as the theme gets activated
   (background-color . "#000000")
   (foreground-color . "#ffffff")
   (ns-appearance . dark)
   (ns-transparent-titlebar . t)))
-
 
 ;; If an `.el' file is newer than its corresponding `.elc', load the `.el'.
 (setq load-prefer-newer t)

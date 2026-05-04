@@ -47,7 +47,17 @@
   (load-theme 'modus-vivendi)
   :if (display-graphic-p))
 
-;;; Trust all of my elisp files (this enables flymake byte-compile checking)
+(set-frame-font "FiraCode Nerd Font Mono-18:style=Retina" nil t)
+(set-face-font 'fixed-pitch-serif "FiraCode Nerd Font Mono-18:style=Retina")
+(set-face-font 'variable-pitch "FiraCode Nerd Font Mono-18:style=Retina")
+
+;; Local file per machine.
+;; Loaded last to override previous settings.
+(let ((local-settings (expand-file-name "local.el" user-emacs-directory)))
+ (when (file-exists-p local-settings)
+   (load-file local-settings)))
+
+;;; Trust my elisp files (this enables flymake byte-compile checking)
 (add-to-list 'trusted-content "~/.config/emacs/init.el")
 (add-to-list 'trusted-content "~/.config/emacs/early-init.el")
 (add-to-list 'trusted-content "~/.config/emacs/user-lisp/")
