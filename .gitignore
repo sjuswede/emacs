@@ -1,0 +1,26 @@
+# gitignore for emacsen
+# saves personal configuration including hand installed bits
+# this is a whitelist
+*
+!*/
+# Core include files
+!early-init.el
+!init.el
+# include my site lisp and user lisp directories
+# but only lisp files, exclude elc
+!site-lisp/**
+!user-lisp/**
+!themes/**
+*.elc
+# documentation and metainformation
+!README.md
+!.gitignore
+# emacs junk
+# explicit to be sure as these are super annoying
+\#*\#
+*~
+/.emacs.desktop
+/.emacs.desktop.lock
+auto-save-list
+.\#*
+
