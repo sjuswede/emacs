@@ -42,12 +42,20 @@
 
 (require 'jas-basic)
 (require 'jas-completion)
-;(require 'jas-org)
+(require 'jas-org)
 
 ;; Set a theme which is nice
-(use-package emacs
+;(use-package emacs
+;  :config
+;  (load-theme 'almost-mono-black)
+;  :if (display-graphic-p))
+
+(use-package almost-mono-themes
   :config
-  (load-theme 'modus-vivendi)
+  (load-theme 'almost-mono-black t)
+  ;; (load-theme 'almost-mono-gray t)
+  ;; (load-theme 'almost-mono-cream t)
+  ;;(load-theme 'almost-mono-white t)
   :if (display-graphic-p))
 
 (set-frame-font "FiraCode Nerd Font Mono-18:style=Retina" nil t)

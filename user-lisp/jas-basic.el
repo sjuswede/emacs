@@ -13,9 +13,19 @@
 ;; ~/.emacs.d/emacs-backup
 (let ((backup-dir (expand-file-name "emacs-backup/" user-emacs-directory)))
   (setopt backup-directory-alist `(("." . ,backup-dir)))
+  ;; Keep # files away from current directory as well
+  (setq auto-save-file-name-transforms
+    `((".*" ,backup-dir t)))
   ;; Make sure backup directory exist
   (when (not (file-exists-p backup-dir))
     (make-directory backup-dir t)))
+
+;; Sane backup management
+(setq backup-by-copying t    ; Don't delink hardlinks
+      delete-old-versions t  ; Clean up the backups
+      version-control t      ; Use version numbers on backups,
+      kept-new-versions 5    ; keep some new versions
+      kept-old-versions 2)   ; and some old ones, too
 
 ;; Automatically reread from disk if the underlying file changes
 (setopt auto-revert-avoid-polling t)
@@ -80,6 +90,18 @@
 (prefer-coding-system 'utf-8)
 ;(setq system-time-locale "en_US")
 
+;; ripgrep for fast searches
+(use-package rg
+  :config (rg-enable-default-bindings)
+  :bind
+  ("C-c s" . rg-menu))
+
+;; better fill and unfill
+(use-package unfill
+  :bind
+  ("M-q" . unfill-toggle)
+  ("A-q" . unfill-paragraph))
+
 ;;;; packages
 
 ;;; Basic package setup and management
@@ -104,6 +126,64 @@
   (cl-pushnew 'embark--mark-target
               (alist-get 'whole-line-or-region-delete-region
                          embark-around-action-hooks)))
+
+;; imenu
+(use-package imenu-list
+  :ensure t
+  :bind (("C-'" . imenu-list-smart-toggle))
+  :config
+  (setq imenu-list-focus-after-activation t
+        imenu-list-auto-resize t))
+
+(use-package olivetti
+  :ensure
+  :diminish
+  :config
+  (setq olivetti-body-width 0.65)
+  (setq olivetti-minimum-body-width 72)
+  (setq olivetti-recall-visual-line-mode-entry-state t)
+
+  (define-minor-mode prot/olivetti-mode
+    "Toggle buffer-local `olivetti-mode' with additional parameters.
+
+Fringes are disabled.  The modeline is hidden, except for
+`prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
+default typeface is set to a proportionately-spaced family,
+except for programming modes (see `prot/variable-pitch-mode').
+The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
+    :init-value nil
+    :global nil
+    (if prot/olivetti-mode
+        (progn
+          (olivetti-mode 1)
+          (set-window-fringes (selected-window) 0 0)
+          (prot/variable-pitch-mode 1)
+          (prot/cursor-type-mode 1)
+          (unless (derived-mode-p 'prog-mode)
+            (prot/hidden-mode-line-mode 1))
+          (window-divider-mode 1)
+          (when (eq major-mode 'org-mode)
+            (org-superstar-mode 1)))
+      (olivetti-mode -1)
+      (set-window-fringes (selected-window) nil) ; Use default width
+      (prot/variable-pitch-mode -1)
+      (prot/cursor-type-mode -1)
+      (unless (derived-mode-p 'prog-mode)
+        (prot/hidden-mode-line-mode -1))
+      (window-divider-mode -1)
+      (when (eq major-mode "org-mode")
+        (org-superstar-mode -1))))
+
+  :bind ("C-c o" . prot/olivetti-mode))
+
+
+;(add-hook 'markdown-mode-hook (lambda () (setq-local imenu-auto-rescan t)))
+;(add-hook 'makefile-mode-hook (lambda () (setq-local imenu-auto-rescan t)))
+;(add-hook 'prog-mode-hook
+;      (lambda ()
+;        (setq-local imenu-auto-rescan t)
+;        (setq-local imenu-sort-function #'imenu--sort-by-name)))
+
 
 (provide 'jas-basic)
 ;; EOF
