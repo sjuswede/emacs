@@ -16,6 +16,7 @@
 !README.md
 !.gitignore
 # emacs junk
+elpa/*
 # explicit to be sure as these are super annoying
 \#*\#
 *~
