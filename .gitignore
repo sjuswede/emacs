@@ -16,7 +16,10 @@
 !README.md
 !.gitignore
 # emacs junk
+/elpa
 elpa/*
+/eln-cache
+/var
 # explicit to be sure as these are super annoying
 \#*\#
 *~
