@@ -19,8 +19,8 @@
    )
 
 ;; disable scrollbars
-;(customize-set-variable 'scroll-bar-mode nil)
-;(customize-set-variable 'horizontal-scroll-bar-mode nil)
+(customize-set-variable 'scroll-bar-mode nil)
+(customize-set-variable 'horizontal-scroll-bar-mode nil)
 
 ;; Default frame configuration
 (tool-bar-mode -1)
