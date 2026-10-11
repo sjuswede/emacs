@@ -23,12 +23,15 @@
 ;;; Package preparation early
 
 ;; use-package is started in early-init
+;(eval-when-compile
+(require 'package)
+(require 'use-package)
 ;; Melpa. Yes, I know. I still want it.
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;(setq use-package-always-ensure t)
 
-(eval-when-compile
-  (require 'use-package))
+;(eval-when-compile
+;  (require 'use-package))
 ;(require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
