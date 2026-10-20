@@ -20,6 +20,12 @@
       (set-frame-position (selected-frame) 0 0)
       (set-frame-size (selected-frame) 110 50))
 
+;; Default frame configuration
+(when (display-graphic-p)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1))
+(menu-bar-mode -1)
+
 ;;; Package preparation early
 
 ;; use-package is started in early-init

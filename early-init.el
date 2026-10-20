@@ -22,12 +22,6 @@
 (customize-set-variable 'scroll-bar-mode nil)
 (customize-set-variable 'horizontal-scroll-bar-mode nil)
 
-;; Default frame configuration
-(if (display-graphic-p)
-  ((tool-bar-mode -1)
-  (scroll-bar-mode -1)))
-(menu-bar-mode -1)
-
 ;; Resizing the Emacs frame can be an expensive part of changing the
 ;; font. Inhibit this to reduce startup times with fonts that are
 ;; larger than the system default.
