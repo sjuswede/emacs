@@ -82,11 +82,14 @@
 ;(scroll-bar-mode -1)        ; Disable visible scrollbar
 ;(tool-bar-mode -1)          ; Disable the toolbar
 (tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode 10)        ; Give some breathing room
 ;(menu-bar-mode -1)            ; Disable the menu bar
 (setq use-dialog-box nil)
 (setq use-file-dialog nil)
 ;(setq-default frame-title-format '("%b  -  GNU Emacs @" system-name))
+
+(if (display-graphic-p)
+  (set-fringe-mode 10) ; give some breathing room
+  )
 
 ;;; Fix up some annoyances
 ;; No startup message
@@ -241,53 +244,6 @@
   :after org
 )
 
-(use-package org-roam
-  :ensure t
-  :after org
-  :init
-  (setq org-roam-v2-ack t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-	 ("C-c n f" . org-roam-node-find)
-	 ("C-c n i" . org-roam-node-insert)
-	 ("C-c n c" . org-roam-capture)
-	 ("C-c n j" . org-roam-dailies-capture-today))
-  :config
-  (setq org-roam-directory
-	(file-truename "~/org"))
-  (setq org-roam-db-location
-	(concat org-roam-directory "/org-roam.db"))
-  (org-roam-setup))
-
-;(setq org-roam-capture-templates
-;      (append
-;       ;; org-roam-capture-templates
-;       '(
-;         ("p" "projects" plain "%?" :unnarrowed t
-;          :target (file+head "projects/${slug}.org"
-;                             "#+title: ${title}\n\n"))
-;         ("t" "topics" plain "%?" :unnarrowed t
-;          :target (file+head "topics/${slug}.org"
-;                             "#+title: ${title}\n\n"))
-;         ("c" "code" plain "%?" :unnarrowed t
-;          :target (file+head "code/${slug}.org"
-;                             "#+title: ${title}\n\n"))
-;         ("D" "drills" plain "%?" :unnarrowed t
-;          :target (file+head "drills/${slug}.org"
-;                             "#+title: ${title}\n\n"))
-;         ;; TODO: validate whether this should be changed
-;         ;; - for org-roam-bibtex or org-ref
-;         ;; NOTE: slug needs to be a DOI in form:
-;         ;; - ${indicator}.${registrant}/${suffix}
-;         ("n" "noter (DOI)" plain "%?" :unnarrowed t
-;          :target (file+head "noter/${slug}.org"
-;                             "#+title: ${title}\n\n"))
-;
-;         ("s" "slips" plain "%?" :unnarrowed t
-;          :target (file+head "slips/%<%Y%m%d%H%M%S>-${slug}.org"
-;                             "#+title: ${title}"))
-;
-;         ) org-roam-capture-templates))
-
 ;; To hide drawers, e.g. PROPERTIES.
 (setq org-startup-folded 'fold)
 
@@ -326,6 +282,41 @@
 
 ;;; End of org mode and friends
 
+(use-package howm
+  :ensure t
+  :init
+  ;;
+  ;; Options: Remove the leading ";" in the following lines if you like.
+  ;;
+  ;; Format
+  ;(require 'howm-markdown) ;; Write notes in markdown-mode. (*1)
+  ;(require 'howm-org) ;; Write notes in Org-mode. (*2)
+  ;;
+  ;; Preferences
+  (setq howm-directory "~/notes") ;; where to store the files?
+  (setq howm-home-directory "~/notes") ;; special files
+  (setq howm-follow-theme t) ;; use your Emacs theme colors
+  (setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.md") ;; default file format
+  ;;
+  ;; Performance
+  ;(setq howm-menu-expiry-hours 1) ;; Cache menu N hours
+  ;(setq howm-menu-refresh-after-save nil) ;; Speed up note saving
+  ;; Use ripgrep as grep
+  (setq howm-view-use-grep t)
+  (setq howm-view-grep-command "rg")
+  (setq howm-view-grep-option "-nH --no-heading --color never")
+  (setq howm-view-grep-extended-option nil)
+  (setq howm-view-grep-fixed-option "-F")
+  (setq howm-view-grep-expr-option nil)
+  (setq howm-view-grep-file-stdin-option nil)
+  :config
+  (define-key howm-menu-mode-map "\C-h" nil)
+  (define-key riffle-summary-mode-map "\C-h" nil)
+  (define-key howm-view-contents-mode-map "\C-h" nil)
+  ;; The hook will rename buffers to their title
+  :hook (('howm-mode . 'howm-mode-set-buffer-name)
+	 ('after-save . 'howm-mode-set-buffer-name))
+  )
 
 ;; Writing and coding niceties
 
